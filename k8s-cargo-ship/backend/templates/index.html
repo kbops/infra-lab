@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Friends</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            font-family: monospace;
+            padding: 20px;
+        }
+
+        input {
+            padding: 5px;
+            margin-bottom: 10px;
+            width: 300px;
+        }
+
+        button {
+            background-color: #38bdf8;
+            color: #0f172a;
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>⚓ Welcome Aboard!</h1>
+    <form method="post" action="/">
+        <label for="f_name">Captain First Name:</label><br>
+        <input type="text" id="f_name" name="f_name" value="Captain" required><br>
+
+        <label for="l_name">Captain Last Name:</label><br>
+        <input type="text" id="l_name" name="l_name" value="Kube" required><br>
+
+        <label for="friends">Friends (comma-separated):</label><br>
+        <input type="text" id="friends" name="friends" placeholder="Alice,Bob,Charlie" required><br>
+
+        <button type="submit">🚀 Set Sail!</button>
+    </form>
+</body>
+
+</html>

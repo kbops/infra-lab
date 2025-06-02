@@ -43,3 +43,15 @@ module "vpc" {
   tags               = local.tags
 }
 
+resource "aws_ecr_repository" "cargo_ship" {
+  name = "cargo-ship"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Name        = "cargo-ship"
+    Environment = "dev"
+  }
+}

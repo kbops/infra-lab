@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Kubernetes Cargo Ship</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            font-family: monospace;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        .ascii-art {
+            color: #22d3ee;
+            white-space: pre;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .motivation {
+            color: #a3e635;
+            font-style: italic;
+            margin-top: 25px;
+        }
+
+        .info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #facc15;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>⚓ Powered by Kubernetes Cluster Version 1.31</h1>
+    <p>Owner: {{ f_name }} {{ l_name }}</p>
+    <p>Friends on board:</p>
+    <ul>
+        {% for x in names %}
+        <li>Hello to {{ x }} from Captain {{ f_name }}</li>
+        {% endfor %}
+    </ul>
+
+    <div class="ascii-art">
+        | | |
+        )_) )_) )_)
+        )___))___))___)
+        )____)____)_____)
+        _____|____|____|____\\__
+        \\ /
+        \\_________________/
+        ~~~ ~~~~~ ~~~~~ ~~~~ ~~~
+
+        🚢 Kubernetes Cargo Ship delivering your data containers!
+    </div>
+
+    <div class="motivation">
+        “Success is not final, failure is not fatal: it is the courage to continue that counts.”<br>
+        – Winston S. Churchill
+    </div>
+
+    <div class="info">
+        <b>Server Private IP:</b> {{ myip }}<br>
+        <b>Hostname:</b> {{ hostname }}<br>
+        <b>Date:</b> {{ date }}<br>
+        <b>Version:</b> 1.1 🚀<br>
+    </div>
+</body>
+
+</html>
