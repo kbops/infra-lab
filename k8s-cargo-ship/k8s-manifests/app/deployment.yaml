@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cargo-ship-deployment
+  namespace: cargo-ship-namespace
+  labels:
+    app: cargo-ship
+    environment: production
+    team: devops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cargo-ship
+  template:
+    metadata:
+      labels:
+        app: cargo-ship
+    spec:
+      containers:
+      - name: app-cargo-ship
+        image: 106714502496.dkr.ecr.eu-central-1.amazonaws.com/cargo-ship:1.2
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "0.1"
+            memory: "200Mi"
+          limits:
+            cpu: "0.2"
+            memory: "300Mi"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: cargo-ship-clusterip
+  namespace: cargo-ship-namespace
+spec:
+  selector:
+    app: cargo-ship
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP

@@ -6,4 +6,6 @@
 *.auto.tfvars
 secrets*.tfvars
 personal*.tfvars
+ecr-secret.yaml
+architecture.yaml
 
