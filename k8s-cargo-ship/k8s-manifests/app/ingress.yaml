@@ -1,0 +1,18 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cargo-ship-ingress
+  namespace: cargo-ship-namespace
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: cargo-ship-clusterip
+            port:
+              number: 80

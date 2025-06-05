@@ -12,7 +12,7 @@ output "cluster_ca_certificate" {
 
 output "cargo_ship_ecr_repository_url" {
   description = "The URL of the ECR repository for k8s-cargo-ship"
-  value       = data.aws_ecr_repository.k8s_cargo_ship.repository_url
+  value       = aws_ecr_repository.cargo_ship.repository_url
 }
 
 output "region" {

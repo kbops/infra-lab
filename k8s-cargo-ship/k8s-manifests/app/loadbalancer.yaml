@@ -1,16 +1,16 @@
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: cargo-ship-lb
-  namespace: cargo-ship-namespace
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-internal: "false"
-spec:
-  selector:
-    app: cargo-ship
-  ports:
-    - protocol: TCP
-      port: 80 
-      targetPort: 8080
-  type: LoadBalancer
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: cargo-ship-lb
+#   namespace: cargo-ship-namespace
+#   annotations:
+#     service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+# spec:
+#   selector:
+#     app: cargo-ship
+#   ports:
+#     - protocol: TCP
+#       port: 80 
+#       targetPort: 8080
+#   type: LoadBalancer
