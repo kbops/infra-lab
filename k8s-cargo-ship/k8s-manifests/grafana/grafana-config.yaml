@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+  namespace: cargo-ship-namespace
+data:
+  grafana.ini: |
+    [server]
+    root_url = /grafana
+    serve_from_sub_path = true
+
+    [auth.anonymous]
+    enabled = true
+    org_role = Viewer
+
+    [users]
+    default_theme = dark
+
+    [paths]
+    data = /var/lib/grafana
+    logs = /var/log/grafana
+    plugins = /var/lib/grafana/plugins
+    provisioning = /etc/grafana/provisioning

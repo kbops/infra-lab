@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-provider
+  namespace: cargo-ship-namespace
+data:
+  dashboard.yaml: |
+    apiVersion: 1
+
+    providers:
+      - name: 'node-exporter-dashboards'
+        orgId: 1
+        type: file
+        disableDeletion: false
+        updateIntervalSeconds: 30
+        options:
+          path: /var/lib/grafana/dashboards

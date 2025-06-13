@@ -7,5 +7,5 @@
 secrets*.tfvars
 personal*.tfvars
 ecr-secret.yaml
+grafana-secret.yaml
 architecture.yaml
-

@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grafana
+  name: grafana
+  namespace: cargo-ship-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-admin-secret
+                  key: admin-user
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-admin-secret
+                  key: admin-password
+          volumeMounts:
+            - name: grafana-datasource
+              mountPath: /etc/grafana/provisioning/datasources
+              readOnly: true
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+            - name: grafana-config
+              mountPath: /etc/grafana/grafana.ini
+              subPath: grafana.ini
+            - name: grafana-dashboard-provider
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: grafana-dashboards
+              mountPath: /var/lib/grafana/dashboards
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      volumes:
+        - name: grafana-datasource
+          configMap:
+            name: grafana-datasource
+        - name: grafana-dashboard-provider
+          configMap:
+            name: grafana-dashboard-provider
+        - name: grafana-dashboards
+          configMap:
+            name: node-exporter-dashboard
+        - name: grafana-config
+          configMap:
+            name: grafana-config
+        - name: grafana-storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: cargo-ship-namespace
+spec:
+  selector:
+    app: grafana
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
