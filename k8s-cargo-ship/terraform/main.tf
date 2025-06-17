@@ -7,7 +7,7 @@ module "eks" {
   cluster_name                             = local.name
   cluster_version                          = "1.32"
   cluster_endpoint_public_access           = true
-  cluster_endpoint_public_access_cidrs     = ["195.66.79.219/32"] # Replace with your IP
+  cluster_endpoint_public_access_cidrs     = ["195.66.79.218/32"] # Replace with your IP
   enable_cluster_creator_admin_permissions = true
   subnet_ids                               = module.vpc.private_subnets
   vpc_id                                   = module.vpc.vpc_id

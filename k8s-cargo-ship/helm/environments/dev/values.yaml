@@ -1,0 +1,65 @@
+# environments/dev/values.yaml
+
+flask-app:
+  image:
+    repository: myrepo/flask-app
+    tag: latest
+  service:
+    port: 5000
+  ingress:
+    enabled: true
+    host: flask.local
+
+prometheus:
+  server:
+    ingress:
+      enabled: true
+      hosts:
+        - prometheus.local
+  prometheus-node-exporter:
+    enabled: true
+
+grafana:
+  adminPassword: admin
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.local
+  serviceAccount:
+    create: true
+    name: grafana-sa
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://prometheus-server
+          isDefault: true
+  dashboardsProvider:
+    dashboardsProvider.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          options:
+            path: /var/lib/grafana/dashboards
+  dashboards:
+    default:
+      flask:
+        json: |
+          {
+            "id": null,
+            "title": "Flask Monitoring",
+            "panels": [],
+            "schemaVersion": 16,
+            "version": 0
+          }
+  sidecar:
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: true
