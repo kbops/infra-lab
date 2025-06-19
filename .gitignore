@@ -9,3 +9,7 @@ personal*.tfvars
 ecr-secret.yaml
 grafana-secret.yaml
 architecture.yaml
+
+# Ignore Helm charts
+Chart.lock
+**/charts/
