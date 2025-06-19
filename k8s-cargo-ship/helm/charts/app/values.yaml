@@ -40,19 +40,19 @@ resources:
     cpu: "0.1"
     memory: "128Mi"
 
-# readinessProbe:
-#   httpGet:
-#     path: /
-#     port: http
-#   initialDelaySeconds: 2
-#   periodSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /
+    port: 8080
+  initialDelaySeconds: 2
+  periodSeconds: 5
 
-# livenessProbe:
-#   httpGet:
-#     path: /
-#     port: http
-#   initialDelaySeconds: 5
-#   periodSeconds: 10
+livenessProbe:
+  httpGet:
+    path: /
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
 
 imagePullSecrets:
   - name: ecr-secret

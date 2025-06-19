@@ -2,13 +2,8 @@
 
 flask-app:
   image:
-    repository: myrepo/flask-app
-    tag: latest
-  service:
-    port: 5000
-  ingress:
-    enabled: true
-    host: flask.local
+    repository: 106714502496.dkr.ecr.eu-central-1.amazonaws.com/cargo-ship
+    tag: dev-latest
 
 prometheus:
   server:

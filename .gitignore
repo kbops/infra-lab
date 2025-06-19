@@ -12,4 +12,4 @@ architecture.yaml
 
 # Ignore Helm charts
 Chart.lock
-**/charts/
+*/helm/charts/*/charts/
