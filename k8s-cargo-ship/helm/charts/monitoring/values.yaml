@@ -35,7 +35,7 @@ grafana:
         - name: Prometheus
           type: prometheus
           access: proxy
-          url: http://prometheus-service.cargo-ship-namespace.svc.cluster.local:9090
+          url: http://monitor-prometheus-server.monitoring.svc.cluster.local
           isDefault: true
           editable: true
   dashboardsProvider:
@@ -50,7 +50,7 @@ grafana:
           options:
             path: /var/lib/grafana/dashboards
   dashboards:
-    default:
+    node-exporter-dashboards:
       node_exporter_full:
         json: |
           {
@@ -201,5 +201,7 @@ grafana:
   sidecar:
     dashboards:
       enabled: true
+      label: dashboard-provider
+      labelValue: node-exporter-dashboards
     datasources:
       enabled: true
