@@ -11,7 +11,9 @@ spec:
     path: k8s-cargo-ship/helm/charts/app
     helm:
       releaseName: backend
-      values: {}  # values.yaml can be specified here if needed
+      values: |
+        ingress:
+          enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: backend
