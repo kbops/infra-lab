@@ -1,17 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-apps
+  name: backend
   namespace: argocd
 spec:
   project: learning-project
   source:
     repoURL: https://github.com/kbops/infra-lab.git
     targetRevision: develop
-    path: argocd-root/apps
+    path: k8s-cargo-ship/helm/charts/app
+    helm:
+      releaseName: backend
+      values: {}  # values.yaml can be specified here if needed
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: backend
   syncPolicy:
     automated:
       prune: true

@@ -1,17 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-apps
+  name: monitoring
   namespace: argocd
 spec:
   project: learning-project
   source:
     repoURL: https://github.com/kbops/infra-lab.git
     targetRevision: develop
-    path: argocd-root/apps
+    path: k8s-cargo-ship/helm/charts/monitoring
+    helm:
+      releaseName: monitoring
+      values: |
+        grafana:
+          ingress:
+            enabled: false
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: monitoring
   syncPolicy:
     automated:
       prune: true
