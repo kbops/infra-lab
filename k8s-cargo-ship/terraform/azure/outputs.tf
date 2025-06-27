@@ -1,21 +1,19 @@
-output "cluster_name" {
-  value = module.eks.cluster_name
+output "kube_config" {
+  value     = azurerm_kubernetes_cluster.aks_cluster.kube_config_raw
+  sensitive = true
 }
-
-output "cluster_endpoint" {
-  value = module.eks.cluster_endpoint
+output "aks_cluster_name" {
+  value = azurerm_kubernetes_cluster.aks_cluster.name
 }
-
-output "cluster_ca_certificate" {
-  value = module.eks.cluster_certificate_authority_data
+output "aks_resource_group" {
+  value = azurerm_resource_group.aks_rg.name
 }
-
-output "cargo_ship_ecr_repository_url" {
-  description = "The URL of the ECR repository for k8s-cargo-ship"
-  value       = aws_ecr_repository.cargo_ship.repository_url
+output "aks_cluster_id" {
+  value = azurerm_kubernetes_cluster.aks_cluster.id
 }
-
-output "region" {
-  description = "The AWS region where the EKS cluster is deployed"
-  value       = local.region
+output "spot_node_pool_id" {
+  value = azurerm_kubernetes_cluster_node_pool.spot_pool.id
+}
+output "spot_node_pool_name" {
+  value = azurerm_kubernetes_cluster_node_pool.spot_pool.name
 }

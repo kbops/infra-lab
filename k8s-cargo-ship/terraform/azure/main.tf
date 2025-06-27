@@ -1,58 +1,56 @@
-provider "aws" {
-  region = local.region
+provider "azurerm" {
+  features {}
 }
 
-module "eks" {
-  source                                   = "terraform-aws-modules/eks/aws"
-  cluster_name                             = local.name
-  cluster_version                          = "1.32"
-  cluster_endpoint_public_access           = true
-  cluster_endpoint_public_access_cidrs     = ["195.66.79.218/32"] # Replace with your IP
-  enable_cluster_creator_admin_permissions = true
-  subnet_ids                               = module.vpc.private_subnets
-  vpc_id                                   = module.vpc.vpc_id
+resource "azurerm_resource_group" "aks_rg" {
+  name     = "aks-resource-group"
+  location = local.region
+}
 
-  eks_managed_node_groups = {
-    default = {
-      instance_types = ["t3.medium"]
-      capacity_type  = "SPOT" # Added for cost efficiency
-      desired_size   = var.node_desired_size
-      max_size       = 3
-      min_size       = var.node_min_size
+resource "azurerm_container_registry" "acr" {
+  name                = "containerRegistry1"
+  resource_group_name = azurerm_resource_group.aks_rg.name
+  location            = azurerm_resource_group.aks_rg.location
+  sku                 = "Basic"
+  admin_enabled       = false
+  tags                = local.tags
+}
+
+resource "azurerm_kubernetes_cluster" "aks_cluster" {
+  name                = local.name
+  kubernetes_version  = local.cluster_version
+  dns_prefix          = "aks-${local.name}"
+  location            = azurerm_resource_group.aks_rg.location
+  resource_group_name = azurerm_resource_group.aks_rg.name
+  default_node_pool {
+    name       = "defaultnp"
+    vm_size    = "Standard_DS2_v2"
+    node_count = 1
+    node_labels = {
+      "agentpool" = "defaultnp"
     }
   }
 
-  tags = {
-    Environment = "dev"
-    Terraform   = "true"
-    Manager     = "Valerii Holubiuk"
-  }
-}
-
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0"
-  name    = "eks-vpc"
-  cidr    = local.vpc_cidr
-
-  azs             = local.azs
-  private_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 4, k)]
-  public_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 48)]
-
-  enable_nat_gateway = true
-  single_nat_gateway = true
-  tags               = local.tags
-}
-
-resource "aws_ecr_repository" "cargo_ship" {
-  name = "cargo-ship"
-
-  image_scanning_configuration {
-    scan_on_push = true
+  identity {
+    type = "SystemAssigned"
   }
 
+  tags = local.tags
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "spot_pool" {
+  name                  = "spotnp"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_cluster.id
+  vm_size               = "Standard_DS2_v2"
+
+  priority        = "Spot"
+  eviction_policy = "Delete"
+  spot_max_price  = -1
+  node_count      = 1
+  node_taints     = ["kubernetes.azure.com/scalesetpriority=spot:NoSchedule"]
+
   tags = {
-    Name        = "cargo-ship"
-    Environment = "dev"
+    Environment = "Dev"
+    NodeType    = "Spot"
   }
 }
