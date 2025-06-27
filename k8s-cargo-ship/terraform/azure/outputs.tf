@@ -11,9 +11,9 @@ output "aks_resource_group" {
 output "aks_cluster_id" {
   value = azurerm_kubernetes_cluster.aks_cluster.id
 }
-output "spot_node_pool_id" {
-  value = azurerm_kubernetes_cluster_node_pool.spot_pool.id
-}
-output "spot_node_pool_name" {
-  value = azurerm_kubernetes_cluster_node_pool.spot_pool.name
-}
+# output "spot_node_pool_id" {
+#   value = azurerm_kubernetes_cluster_node_pool.spot_pool.id
+# }
+# output "spot_node_pool_name" {
+#   value = azurerm_kubernetes_cluster_node_pool.spot_pool.name
+# }

@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "aks_rg" {
 }
 
 resource "azurerm_container_registry" "acr" {
-  name                = "containerRegistry1"
+  name                = "cargoacr"
   resource_group_name = azurerm_resource_group.aks_rg.name
   location            = azurerm_resource_group.aks_rg.location
   sku                 = "Basic"
@@ -24,7 +24,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   resource_group_name = azurerm_resource_group.aks_rg.name
   default_node_pool {
     name       = "defaultnp"
-    vm_size    = "Standard_DS2_v2"
+    vm_size    = "Standard_B2s"
     node_count = 1
     node_labels = {
       "agentpool" = "defaultnp"
@@ -38,19 +38,19 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   tags = local.tags
 }
 
-resource "azurerm_kubernetes_cluster_node_pool" "spot_pool" {
-  name                  = "spotnp"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_cluster.id
-  vm_size               = "Standard_DS2_v2"
+# resource "azurerm_kubernetes_cluster_node_pool" "spot_pool" {
+#   name                  = "spotnp"
+#   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_cluster.id
+#   vm_size               = "Standard_B2s"
 
-  priority        = "Spot"
-  eviction_policy = "Delete"
-  spot_max_price  = -1
-  node_count      = 1
-  node_taints     = ["kubernetes.azure.com/scalesetpriority=spot:NoSchedule"]
+#   priority        = "Spot"
+#   eviction_policy = "Delete"
+#   spot_max_price  = -1
+#   node_count      = 1
+#   node_taints     = ["kubernetes.azure.com/scalesetpriority=spot:NoSchedule"]
 
-  tags = {
-    Environment = "Dev"
-    NodeType    = "Spot"
-  }
-}
+#   tags = {
+#     Environment = "Dev"
+#     NodeType    = "Spot"
+#   }
+# }
